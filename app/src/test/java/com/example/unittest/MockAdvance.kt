@@ -287,15 +287,17 @@ class MockAdvance {
         println(mock.speed)
         mock.acceleration = 4
 
-        //------------------------------------------------------------
-
         verify { mock getProperty "speed" }
         verify { mock setProperty "acceleration" value less(5) }
+
+        //------------------------------------------------------------
 
         every {
             mock.speed
         } answers { fieldValue + 6 }
         println(mock.speed)
+
+        //----------------------------------------------
 
         every {
             mock.acceleration = less(5)
@@ -310,20 +312,43 @@ class MockAdvance {
         } propertyType Int::class answers { fieldValue }
         println(mock.acceleration)
 
+        //----------------------------------------------
+
         every {
             mock getProperty "speed"
         } propertyType Int::class answers { fieldValue + 10 }
         println(mock.speed)
-//        every {
-//            mock setProperty "property" value any<Int>()
-//        } propertyType Int::class answers  { fieldValue += value }
-//        every {
-//            mock.acceleration = any()
-//        } propertyType Int::class answers {
-//            fieldValue = value + 1
-//        } andThen {
-//            fieldValue = value - 1
-//        }
+
+        //----------------------------------------------
+
+        every {
+            mock setProperty "acceleration" value any<Int>()
+        } propertyType Int::class answers  { fieldValue += value }
+        mock.acceleration = 16
+        println(mock.acceleration)
+
+        //----------------------------------------------
+
+        every {
+            mock.acceleration = any()
+        } propertyType Int::class answers {
+            fieldValue = value + 1
+        } andThen {
+            fieldValue = value - 1
+        }
+
+        mock.acceleration = 30
+        println(mock.acceleration)
+        mock.acceleration = 30
+        println(mock.acceleration)
+    }
+
+    /**
+     * Class mock & Settings & Cleanup
+     */
+    fun `class mock `() {
+        val mock = mockkClass(ExampleClass::class)
+        mock.getSalary()
     }
 }
 
