@@ -305,10 +305,15 @@ class MockAdvance {
 
         //------------------------------------------
 
-//        println(mock.acceleration)
-//        every {
-//            mock getProperty "property"
-//        } propertyType Int::class answers { fieldValue + 6 }
+        every {
+            mock getProperty "acceleration"
+        } propertyType Int::class answers { fieldValue }
+        println(mock.acceleration)
+
+        every {
+            mock getProperty "speed"
+        } propertyType Int::class answers { fieldValue + 10 }
+        println(mock.speed)
 //        every {
 //            mock setProperty "property" value any<Int>()
 //        } propertyType Int::class answers  { fieldValue += value }
